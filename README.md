@@ -19,17 +19,16 @@ This project is built upon the AAN (Assist-As-Needed) control strategy. The core
 # Prerequisites and Installation
 To run this simulator, you will need Python and the following libraries:
 
-Bash
+```bash
 pip install numpy opencv-python mediapipe pybullet pillow
-
+```
 (Note: The Graphical User Interface is built using Tkinter, which is typically installed by default alongside Python.)
 # How to Run
 To run the rehabilitation dashboard, simply execute the main file:
 
-Bash
-
+```Bash
 python main.py
-
+```
 Upon execution, the dashboard window will open, comprising two main sections:
 1.	Camera View: Tracks your hand and extracts joint locations.
 2.	Simulator View: Displays the exoskeleton's status in a virtual environment and assists you in flexing your fingers or arm when needed.
