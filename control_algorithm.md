@@ -26,3 +26,38 @@ State transitions are governed by comparing the filtered velocity ($v_t$) agains
 •	Movement Initiation: If $\vert{}v_t\vert{} > \tau_{intent}$, the system logs motion intent toward the target.
 
 •	Movement Cancellation: If the user suddenly exerts an opposing force exceeding $\tau_{cancel}$ during motion, the system detects the stop or change of intent and resets the state to 0.
+
+**Hand vs. Arm Joint Differences:** Due to their significantly higher mass and inertia compared to the fingers, the elbow and wrist joints require greater effort to overcome static friction. Consequently, in this algorithm, the intent detection threshold for the elbow is set $0.05$ higher, and for the wrist $0.03$ higher than the fingers to prevent unwanted robot activation caused by natural hand tremulousness or involuntary motion.
+
+# 3. Phase 2: Dynamic Trajectory Generation
+Unlike classical controllers that drive the arm directly to a pre-defined fixed target, this system utilizes the "Virtual Carrot" concept (a dynamic target).
+Once the user's motion intent is confirmed (e.g., flexion movement), the system generates a virtual target that moves slightly ahead of the user's current position at a fixed offset (Max Lead).
+The target step increment per time cycle is calculated as follows:
+
+$$Step_{target} = 0.5 \times \Delta t$$
+
+Then, the dynamic target position ($Target_{dynamic}$) is updated considering the user's current position ($x_t$) and the maximum allowable offset ($Lead_{max} = 0.4$):
+
+$$Target_{t} = \min(1.0, \min(x_t + Step_{target}, x_t + Lead_{max}))$$
+
+This strategy allows the robot to pull the user forward without propelling them unsafely to the end of their range of motion. If the user stops, the virtual target also halts and smoothly recedes back to the user's position.
+
+# 4. Phase 3: Effort Evaluation and Alpha Parameter Tuning
+This module constitutes the core logic of the AAN algorithm. The variable alpha ($\alpha$) determines the degree of user independence:
+
+•	$\alpha = 1.0$: The user is fully independent, and the robot applies no assistance force.
+
+•	$\alpha = 0.0$: The user is completely unable to move, and the robot performs 100% of the movement.
+
+The system continuously monitors whether the user is tracking toward the virtual target ($Dist = Target - x_t$). If the user stays on trajectory, their effective velocity is evaluated against the effort threshold:
+
+•	Struggling User: If the user's effective velocity drops below the effort threshold, muscle weakness at that specific angle is indicated. In this case, alpha decays at a set rate ($Decay$) so the robot can intervene:
+
+$$\alpha_{t} = \alpha_{t-1} - (\lambda_{decay} \times \Delta t)$$
+
+•	Succeeding User: If the user executes the movement at an adequate speed or is in an idle state, alpha increases at a recovery rate ($Recovery$), prompting the robot to disengage quickly and yield control back to the user:
+
+$$\alpha_{t} = \alpha_{t-1} + (\lambda_{recovery} \times \Delta t)$$
+
+The final value of $\alpha$ is continuously clamped between 0.0 and 1.0.
+
