@@ -71,7 +71,7 @@ When the camera sensor registers a new position ($Z$), the Kalman filter calcula
 •	Covariance correction: $P_{new} = (I - K \cdot H) \cdot P_{pred}$
 
 Here, $R$ is the measurement noise matrix, determining our level of trust in the camera. 
-Matrix $H$ specifies that we can only measure position with the camera, not velocity).
+Matrix $H$ is the measurement matrix and specifies that we only measure position with the camera, not velocity. The mathematical role of $H$ is to ensure dimensional alignment during the innovation ($Y$) calculation. It does this by omitting the predicted velocity components from the equations, thereby allowing the 7 predicted positions to be directly subtracted from the 7 new positions observed by the camera.
 
 Conclusion: The output of this filter in matrix $X_{new}$ contains the filtered (jitter-free) angles in the first half of the matrix, and the precisely estimated velocities (without requiring manual numerical differentiation) in the second half of the matrix, which are fed directly into the robot controller algorithm.
 
