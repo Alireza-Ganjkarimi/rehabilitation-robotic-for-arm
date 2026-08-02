@@ -61,3 +61,16 @@ $$\alpha_{t} = \alpha_{t-1} + (\lambda_{recovery} \times \Delta t)$$
 
 The final value of $\alpha$ is continuously clamped between 0.0 and 1.0.
 
+
+# 5. Kinematic Blending
+In the final step, the reference target angle sent to the exoskeleton actuators in the simulation ($\theta_{assist}$) is calculated as a linear combination of the user's actual hand position ($x_t$) and the dynamic target position ($Target_t$), weighted by the $\alpha$ factor:
+
+$$\theta_{assist} = \alpha \cdot x_t + (1 - \alpha) \cdot Target_t$$
+
+Controller Summary:
+
+•	If the patient performs the movement effectively ($\alpha \approx 1$), the control angle output to the robot matches the patient's actual hand angle, resulting in zero resistive or assistive force felt by the user.
+
+•	If the patient exhibits weakness ($\alpha \to 0$), the control angle output shifts toward the virtual target, causing the robot to apply joint torque and guide the patient's hand toward the destination.
+
+
