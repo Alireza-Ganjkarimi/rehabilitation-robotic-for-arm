@@ -34,9 +34,9 @@ Note: The distal finger joints (DIP) are mechanically coupled to the PIP joints 
 # B) Thumb Joints
 the thumb features two joints, thumb base joint and 	thumb rotational joint.
 
-•	Thumb Base Joint: $\theta_{thumb\_{mcp}} = (1.0 - u_{thumb}) \times 1.05$
+•	Thumb Base Joint: $\theta_{thumb\_{mcp}} = u_{thumb} \times 1.05$
 
-•	Thumb Rotational Joint: $\theta_{thumb\_{cmc}} = (1.0 - u_{thumb}) \times 0.79$
+•	Thumb Rotational Joint: $\theta_{thumb\_{cmc}} = u_{thumb} \times 0.79$
 
 # C) Elbow and Wrist Joints (Arm Section)
 
