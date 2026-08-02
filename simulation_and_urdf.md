@@ -32,7 +32,7 @@ Each finger features two primary actuated joints, the base joint (MCP) and the m
 Note: The distal finger joints (DIP) are mechanically coupled to the PIP joints via the <mimic> tag in the URDF file and do not require an independent controller.
 
 # B) Thumb Joints
-Due to the opposing anatomical structure of the thumb compared to the other fingers, its motion logic is inverted. That is, when the control signal $u = 1.0$ (fully closed hand), the thumb joints reach their minimum angle:
+the thumb features two joints, thumb base joint and 	thumb rotational joint.
 
 •	Thumb Base Joint: $\theta_{thumb\_{mcp}} = (1.0 - u_{thumb}) \times 1.05$
 
@@ -46,4 +46,21 @@ The elbow features a wider range of motion. The input signal maps directly to a 
 
 Note: In the current configuration, the wrist joint is locked in a neutral position at $\theta_{wrist} = 0$, but its control mechanism is provisioned for future expansion up to a range of $1.57$ radians.
 
+# 4. Actuator Dynamics: PD Controller Mechanism
+The simulator does not instantaneously "teleport" the joints to the target angle. Instead, it uses PyBullet's POSITION_CONTROL mode, which functions mathematically as a Proportional-Derivative (PD) controller.
+
+To reach the position $\theta_{target}$, the virtual motors apply a torque ($\tau$) based on the error between the target position and the current joint position ($\theta_{current}$), as well as the current joint velocity ($\dot{\theta}_{current}$):
+
+$$\tau = K_p (\theta_{target} - \theta_{current}) - K_d (\dot{\theta}_{current})$$
+
+Where $K_p$ is the stiffness coefficient (proportional gain) and $K_d$ is the damping coefficient (derivative gain).
+
+# Clipping Limits (Power and Velocity Constraints)
+
+To simulate the physical limitations of real actuators (exoskeleton servo motors), the output of the PD controller is strictly constrained by two parameters: maximum velocity ($v_{max}$) and maximum applied torque ($\tau_{max}$). The physics engine clamps these equations accordingly:
+
+$$\vert \tau \vert \le F_{max}$$
+$$\vert \dot{\theta}_{current} \vert \le v_{max}$$
+
+Given the mechanical and inertial differences between the heavy arm segments and the lightweight fingers, these constraints are dynamically applied with varying thresholds for each joint group:
 
