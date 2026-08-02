@@ -11,9 +11,39 @@ The physical structure of the robot is defined using the Unified Robot Descripti
 •	Arm Assembly (Custom Extension): To build a comprehensive rehabilitation simulator for the upper limb, new links and revolute joints—including the shoulder, upper arm, elbow, and forearm—were mathematically modeled, assigned mass and inertial properties, and appended to the base URDF file. 
 
 # 2. Initial Physics Environment Configuration
-To maintain real-time performance and synchronization with image processing, the PyBullet physics engine runs in DIRECT mode (without the default graphical GUI). Key variables of the physics environment are configured as follows:
+To maintain real-time performance and synchronization with vision tracker module, the PyBullet physics engine runs in DIRECT mode (without the default graphical GUI). Key variables of the physics environment are configured as follows:
 
 •	Simulation Time Step ($dt$): Set to $\frac{1}{60}$ seconds to match the operating frequency of standard real-time controllers.
 
 •	Gravity Vector: Applied with an acceleration of $-9.81 \text{ m/s}^2$ along the Z-axis to accurately simulate the weight and natural sagging of the user's hand in virtual space.
+
+# Kinematic Mapping (Normalized Space to Radians)
+The output of the AAN controller is a dimensionless signal in the range $[0, 1]$, where $0.0$ represents full extension and $1.0$ represents full flexion. The simulator maps these values to the physical joint ranges in radians using linear interpolation.
+
+Given the normalized control signal $u \in [0, 1]$, the target joint angle ($\theta_{target}$) is calculated as follows:
+
+# A) Finger Joints (Index, Middle, Ring, Pinky)
+Each finger features two primary actuated joints, the base joint (MCP) and the middle joint (PIP).
+
+•	Base Joint (MCP): $\theta_{mcp} = u_{finger} \times 1.4$
+
+•	Middle Joint (PIP): $\theta_{pip} = u_{finger} \times 1.57$
+
+Note: The distal finger joints (DIP) are mechanically coupled to the PIP joints via the <mimic> tag in the URDF file and do not require an independent controller.
+
+# B) Thumb Joints
+Due to the opposing anatomical structure of the thumb compared to the other fingers, its motion logic is inverted. That is, when the control signal $u = 1.0$ (fully closed hand), the thumb joints reach their minimum angle:
+
+•	Thumb Base Joint: $\theta_{thumb\_{mcp}} = (1.0 - u_{thumb}) \times 1.05$
+
+•	Thumb Rotational Joint: $\theta_{thumb\_{cmc}} = (1.0 - u_{thumb}) \times 0.79$
+
+# C) Elbow and Wrist Joints (Arm Section)
+
+The elbow features a wider range of motion. The input signal maps directly to a maximum elbow flexion of $2.5$ radians (approximately 143 degrees):
+
+•	Elbow Joint: $\theta_{elbow} = u_{elbow} \times 2.5$
+
+Note: In the current configuration, the wrist joint is locked in a neutral position at $\theta_{wrist} = 0$, but its control mechanism is provisioned for future expansion up to a range of $1.57$ radians.
+
 
