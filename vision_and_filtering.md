@@ -57,4 +57,23 @@ $$P_{pred} = A \cdot P_{prev} \cdot A^T + Q$$
 
 Here, $Q$ is the process noise covariance matrix, representing our confidence in the mathematical model.
 
+# C) Update Step
+When the camera sensor registers a new position ($Z$), the Kalman filter calculates the prediction error or "innovation" ($Y$). Then, using the "Kalman Gain" ($K$), it corrects the system state between what the model predicted and what the sensor reports:
+
+•	Measurement error: $Y = Z - H \cdot X_{pred}$
+
+•	Innovation covariance: $S = H \cdot P_{pred} \cdot H^T + R$
+
+•	Kalman Gain calculation: $K = P_{pred} \cdot H^T \cdot S^{-1}$
+
+•	Final state correction: $X_{new} = X_{pred} + K \cdot Y$
+
+•	Covariance correction: $P_{new} = (I - K \cdot H) \cdot P_{pred}$
+
+Here, $R$ is the measurement noise matrix, determining our level of trust in the camera. 
+Matrix $H$ specifies that we can only measure position with the camera, not velocity).
+
+Conclusion: The output of this filter in matrix $X_{new}$ contains the filtered (jitter-free) angles in the first half of the matrix, and the precisely estimated velocities (without requiring manual numerical differentiation) in the second half of the matrix, which are fed directly into the robot controller algorithm.
+
+
 
