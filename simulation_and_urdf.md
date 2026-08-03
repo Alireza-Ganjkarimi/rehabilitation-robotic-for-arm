@@ -67,8 +67,6 @@ Given the mechanical and inertial differences between the heavy arm segments and
 
 <img width="1117" height="175" alt="image" src="https://github.com/user-attachments/assets/8be08393-bc36-4f38-83fa-84c5289a6cfc" />
 
-Significance of These Constraints in the AAN Mechanism:
-
 By capping the torque to 20 N.m for the elbow and 0.5 N.m for the fingers, the simulator accurately reflects a real-world scenario where the robot cannot drive the joint with infinite torque if severe physical resistance (e.g., patient muscle spasticity) is encountered. This guarantees Human-Robot Interaction safety within the simulation.
 
 # 5. Synthetic Rendering and Hardware Acceleration
