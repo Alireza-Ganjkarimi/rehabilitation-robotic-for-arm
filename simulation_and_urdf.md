@@ -56,11 +56,25 @@ $$\tau = K_p (\theta_{target} - \theta_{current}) - K_d (\dot{\theta}_{current})
 Where $K_p$ is the stiffness coefficient (proportional gain) and $K_d$ is the damping coefficient (derivative gain).
 
 # Clipping Limits (Power and Velocity Constraints)
+To simulate the physical limitations of real actuators (exoskeleton servo motors), the output of the PD controller is strictly constrained by two parameters: 
 
-To simulate the physical limitations of real actuators (exoskeleton servo motors), the output of the PD controller is strictly constrained by two parameters: maximum velocity ($v_{max}$) and maximum applied torque ($\tau_{max}$). The physics engine clamps these equations accordingly:
+maximum velocity ($v_{max}$) and maximum applied torque ($\tau_{max}$). The physics engine clamps these equations accordingly:
 
-$$\vert \tau \vert \le F_{max}$$
+$$\vert \tau \vert \le \tau_{max}$$
 $$\vert \dot{\theta}_{current} \vert \le v_{max}$$
 
-Given the mechanical and inertial differences between the heavy arm segments and the lightweight fingers, these constraints are dynamically applied with varying thresholds for each joint group:
+Given the mechanical and inertial differences between the heavy arm segments and the lightweight fingers, these constraints are applied with varying thresholds for each joint group:
+
+<img width="1117" height="175" alt="image" src="https://github.com/user-attachments/assets/8be08393-bc36-4f38-83fa-84c5289a6cfc" />
+
+Significance of These Constraints in the AAN Mechanism:
+
+By capping the torque to 20 N.m for the elbow and 0.5 N.m for the fingers, the simulator accurately reflects a real-world scenario where the robot cannot drive the joint with infinite torque if severe physical resistance (e.g., patient muscle spasticity) is encountered. This guarantees Human-Robot Interaction safety within the simulation.
+
+# 5. Synthetic Rendering and Hardware Acceleration
+To display the robot's status on the user dashboard, a virtual camera is mathematically positioned in 3D space using a View Matrix.
+
+To prevent excessive CPU overhead, the rendering pipeline offloads computation to GPU hardware accelerators using the ER_BULLET_HARDWARE_OPENGL flag. This configuration enables the simulator to extract RGB matrices efficiently and stream them to the user interface at a high, stable frame rate. 
+
+
 
