@@ -69,10 +69,10 @@ Given the mechanical and inertial differences between the heavy arm segments and
 
 By capping the torque to 20 N.m for the elbow and 0.5 N.m for the fingers, the simulator accurately reflects a real-world scenario where the robot cannot drive the joint with infinite torque if severe physical resistance (e.g., patient muscle spasticity) is encountered. This guarantees Human-Robot Interaction safety within the simulation.
 
-# 5. Synthetic Rendering and Hardware Acceleration
+# 5. Synthetic Rendering and Real-Time Synchronization
 To display the robot's status on the user dashboard, a virtual camera is mathematically positioned in 3D space using a View Matrix.
 
 To prevent excessive CPU overhead, the rendering pipeline offloads computation to GPU hardware accelerators using the ER_BULLET_HARDWARE_OPENGL flag. This configuration enables the simulator to extract RGB matrices efficiently and stream them to the user interface at a high, stable frame rate. 
 
-
+Despite hardware acceleration, a common issue in multithreaded physics simulations is time dilation, where GUI and rendering overhead can cause the physics engine to lag behind real-world time. To ensure the AAN controller operates accurately based on strict real-time derivatives, a dynamic catch-up mechanism is implemented alongside the rendering pipeline. By calculating the elapsed real time (current_time - last_sim_time) and dividing it by the fixed time step ($dt$), the simulator executes multiple localized internal steps (p.stepSimulation()) within a single cycle. This guarantees that the physics engine perfectly syncs with the real-world clock, maintaining a highly stable 60Hz loop for precision.
 
