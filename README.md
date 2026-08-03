@@ -34,6 +34,7 @@ Upon execution, the dashboard window will open, comprising two main sections:
 2.	Simulator View: Displays the exoskeleton's status in a virtual environment and assists you in flexing your fingers or arm when needed.
 # Technical Documentation
 For an in-depth study of the project's technical concepts, please refer to the docs/ folder:
+
 •	architecture.md: Overview of software structure and process synchronization.
 
 •	control_algorithm.md: Mathematics behind the AAN controller and how Alpha is calculated.
