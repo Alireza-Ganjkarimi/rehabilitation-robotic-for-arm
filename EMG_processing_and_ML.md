@@ -1,4 +1,4 @@
-# Muscle Signal Processing (EMG) and Machine Learning
+# Muscle Signal Processing (sEMG) and Machine Learning
 This module is responsible for receiving raw surface electromyography (sEMG) signals, extracting meaningful features from them, and predicting the degree of flexion for the five fingers of the hand. Given the noisy and complex nature of biological signals, this system utilizes a combination of a powerful LightGBM machine learning model and post-processing algorithms to stabilize the robot's motion.
 
 # 1. Dataset Architecture
@@ -11,7 +11,7 @@ The machine learning model in this project was trained on data from subject 1 wi
 •	**Motion Classes:** Out of the 49 movements available in the database, exactly 9 practical motion classes were extracted for controlling the simulator: Rest, 5 isolated movements for individual fingers, and 3 functional movements including Power Grip, Power Sphere, and Tip Pinch.
 
 # 2. Target Mapping & Motor Synergy
-A key challenge in controlling rehabilitation robots via EMG is the coupling effect—meaning that when an individual intends to flex only a single finger, other fingers involuntarily move slightly as well. If the model is trained on raw glove data, it will learn these unwanted noises. To resolve this issue and train the model accurately, motion targets were engineered through two approaches rather than using raw labels directly:
+A key challenge in controlling rehabilitation robots via sEMG is the coupling effect—meaning that when an individual intends to flex only a single finger, other fingers involuntarily move slightly as well. If the model is trained on raw glove data, it will learn these unwanted noises. To resolve this issue and train the model accurately, motion targets were engineered through two approaches rather than using raw labels directly:
 
 •	**Isolated Movements:** For movements specific to a single finger (e.g., flexing only the index finger), only the normalized angle of that specific finger from the glove sensor is recorded in the target data array. The angles for the remaining 4 fingers are forcibly set to zero. This forces the machine learning model to ignore movement noise in the other fingers and learn muscle patterns specific strictly to that single finger.
 
@@ -30,7 +30,7 @@ o	Tip Pinch: Only the thumb and index finger are engaged in this movement. To en
 To ensure model generalization and prevent overfitting, the dataset was split based on the repetition index of each movement. Repetitions 0, 1, 3, 4, and 6 were designated as training data (Train), while repetitions 2 and 5 were reserved as testing data (Test) to evaluate model performance.
 
 # 4. Signal Processing and Feature Extraction
-To extract features, initially, the continuous EMG signal is segmented using a sliding window technique (windows of 400 samples with a step size of 100), and a rich set of time-domain and time-frequency domain features is extracted from each window. In this phase, for each 400-sample window, the mean value of the target joint angles is defined as the ground-truth label for that window.
+To extract features, initially, the continuous sEMG signal is segmented using a sliding window technique (windows of 400 samples with a step size of 100), and a rich set of time-domain and time-frequency domain features is extracted from each window. In this phase, for each 400-sample window, the mean value of the target joint angles is defined as the ground-truth label for that window.
 
 # 4.1. Time-Domain Features
 Due to their low computational complexity, time-domain features play a key role in real-time processing of biological signals. Assuming $x_i$ is the signal amplitude at the $i$-th sample and $N$ is the length of the time window, the following features are extracted:
@@ -90,7 +90,7 @@ To map the features extracted from muscle signals to the continuous angles of ha
 Since standard regression algorithms are typically capable of predicting only a single output value, the base LightGBM model is wrapped inside the `MultiOutputRegressor` class. This class manages the architecture by creating 5 completely independent LightGBM models under the hood instead of a single monolithic model. In other words, the system feeds the exact same input feature array to all models, but each of the 5 models is specialized, trained, and optimized in parallel to exclusively predict the angle of one specific finger.
 
 # 6. Real-Time Data Streaming
-In this simulator, when a user selects a motion type (e.g., Power Sphere or Index Finger Movement) via the dashboard, the robot is not directly controlled by this selection. Instead, this trigger simply instructs the `EMGTracker` module to query the database and locate the raw EMG signals corresponding to the test samples (held-out repetition 5) for that specific movement. The system then uses an index pointer to extract these signals as sliding time windows, extracts their features, and feeds them into the machine learning model. In fact, the machine learning model predicts joint flexion completely blindly, solely based on the incoming muscle signal stream.
+In this simulator, when a user selects a motion type (e.g., Power Sphere or Index Finger Movement) via the dashboard, the robot is not directly controlled by this selection. Instead, this trigger simply instructs the `EMGTracker` module to query the database and locate the raw sEMG signals corresponding to the test samples (held-out repetition 5) for that specific movement. The system then uses an index pointer to extract these signals as sliding time windows, extracts their features, and feeds them into the machine learning model. In fact, the machine learning model predicts joint flexion completely blindly, solely based on the incoming muscle signal stream.
 
 # 7. Post-Processing Pipeline and Kinematic Stabilization
 The raw outputs predicted by the machine learning model (i.e., estimated flexion values for the five fingers) may contain jitter or noise. To convert these model predictions into smooth, joint-safe movement angles for the robot, the estimates pass through a multi-stage processing pipeline:
@@ -114,6 +114,6 @@ $$Flex_t = \alpha \cdot Flex_{new\_pred} + (1 - \alpha) \cdot Flex_{t-1}$$
 where $\alpha$ represents the system's smoothing factor.
 
 # 8. Signal Visualization
-To provide visual feedback to the user on the interactive dashboard, this module generates a multi-channel graphical plot of the raw EMG data corresponding to the user-selected movement within each time window. This chart plots the values of all 12 channels using distinct colors as line graphs and updates continuously, allowing the real-time muscle contraction status to be observed live by the user or therapist.
+To provide visual feedback to the user on the interactive dashboard, this module generates a multi-channel graphical plot of the raw sEMG data corresponding to the user-selected movement within each time window. This chart plots the values of all 12 channels using distinct colors as line graphs and updates continuously, allowing the real-time muscle contraction status to be observed live by the user or therapist.
 
 
