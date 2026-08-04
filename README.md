@@ -2,7 +2,7 @@
 This project is a simulator for an upper-limb rehabilitation robot covering the arm, forearm, hand, and fingers. The system evaluates the user's motion intent through two completely distinct approaches (hand video analysis or EMG muscle signal processing). If the force applied by the user is insufficient to complete the movement, the robot increases its assistive force to complete the intended motion.
 # Assist-As-Needed Rehabilitation Exoskeleton Simulator
 Assist-As-Needed Rehabilitation Exoskeleton Simulator
-The goal of this project is to develop an intelligent simulator for an arm and hand exoskeleton. Since physical hardware was unavailable during this phase, the system was designed to detect the user's motion intent through one of the following two perception modules:
+The goal of this project is to develop an intelligent simulator for an arm and hand rehabilitation exoskeleton. Since physical hardware was unavailable during this phase, the system was designed to detect the user's motion intent through one of the following two perception modules:
 
 **1-Computer Vision:** Tracking hand joints via camera frames.
 
