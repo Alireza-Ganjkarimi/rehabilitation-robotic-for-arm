@@ -1,12 +1,13 @@
 # rehabilitation-robotic-for-arm
-This project is a simulator for an upper-limb rehabilitation robot covering the arm, forearm, hand, and fingers. The system evaluates the user's motion intent through two completely distinct approaches (hand video analysis or EMG muscle signal processing). If the force applied by the user is insufficient to complete the movement, the robot increases its assistive force to complete the intended motion.
+This project is a simulator for an upper-limb rehabilitation robot covering the arm, forearm, hand, and fingers. The system evaluates the user's motion intent through two completely distinct approaches (hand video analysis or sEMG muscle signal processing). If the force applied by the user is insufficient to complete the movement, the robot increases its assistive force to complete the intended motion. Therefore, for real-world applications, the primary goal of this robot is to maximize the user's active muscular participation and prevent muscle slacking.
+
 # Assist-As-Needed Rehabilitation Exoskeleton Simulator
 Assist-As-Needed Rehabilitation Exoskeleton Simulator
 The goal of this project is to develop an intelligent simulator for an arm and hand rehabilitation exoskeleton. Since physical hardware was unavailable during this phase, the system was designed to detect the user's motion intent through one of the following two perception modules:
 
 **1-Computer Vision:** Tracking hand joints via camera frames.
 
-**2-Electromyography (EMG) Signals:** Interpreting EMG data using machine learning models.
+**2-Surface Electromyography (sEMG) Signals:** Interpreting sEMG data using machine learning models.
 # Project Structure
 To avoid complexity, the project is divided into three separate folders with distinct capabilities:
 
@@ -14,7 +15,7 @@ To avoid complexity, the project is divided into three separate folders with dis
 
 `hand_and_arm/`: Simultaneous control of robot fingers and elbow via image processing.
 
-`EMG/`: Controls robot finger movements through muscle signal processing (EMG).
+`EMG/`: Controls robot finger movements through muscle signal processing (sEMG).
 
 # Assist-As-Needed (AAN) Mechanism
 This project is built upon the AAN (Assist-As-Needed) control strategy. The core logic of this rehabilitation robot is as follows:
@@ -23,7 +24,7 @@ This project is built upon the AAN (Assist-As-Needed) control strategy. The core
 
 •	Applying Assistive Force: However, if the control algorithms detect that the individual experiences weakness at certain moments or faces difficulty completing specific angles, the robotic system steps in. In this state, the robot applies a calculated assistive force to aid the patient's hand in completing the movement.
 # Key Features
-•	Dual Isolated Input Support: Kinematic extraction of hand and arm angles using a real-time camera, or grasp pattern prediction using EMG signals.
+•	Dual Isolated Input Support: Kinematic extraction of hand and arm angles using a real-time camera, or grasp pattern prediction using sEMG signals.
 
 •	Motion Intent Detection (ML): Utilization of the LightGBM machine learning model for processing temporal and frequency (wavelet) features of muscle signals.
 
@@ -46,7 +47,7 @@ First, navigate to your desired directory (one of the three folders mentioned ab
 python main.py
 ```
 Upon execution, the dashboard window will open, comprising two main sections:
-1.	Sensor/Camera View: Displays live data streams (camera frames or EMG signal plots).
+1.	Sensor/Camera View: Displays live data streams (camera frames or sEMG signal plots).
 2.	Simulator View: Displays the real-time status of the exoskeleton inside the virtual environment and visualizes the robot's assistive force level.
 # Technical Documentation
 For an in-depth study of the project's technical concepts, please refer to the docs/ folder:
