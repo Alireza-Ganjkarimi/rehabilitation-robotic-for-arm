@@ -58,7 +58,7 @@ For an in-depth study of the project's technical concepts, please refer to the d
 
 •	vision_kinematics.md: Angle calculation methodology and the operation of the Kalman filter.
 
-•	emg_processing_and_ml.md: Details regarding feature extraction from EMG signals and machine learning model training.
+•	EMG_processing_and_ML.md: Details regarding feature extraction from EMG signals and machine learning model training.
 
 •	simulation.md: Details of the URDF file and position control in PyBullet.
 # Credits & Attribution
