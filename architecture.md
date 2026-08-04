@@ -35,9 +35,9 @@ The application's main thread handles the Tkinter user interface.
 
 Safe data exchange among these three isolated processes is handled via the following mechanisms:
 
-•	**Vision Queue** (`vision_queue`): Transfers processed camera frames from the vision processor to the dashboard.
+•	**Vision Queue** (`vision_queue/sensor_queue`): Transfers processed visual data (camera frames or EMG plots) from the perception processor to the dashboard.
 
-•	**Kinematics Queue** (`flexion_queue`): Transfers the joint angle array from the vision processor to the robot processor.
+•	**Kinematics Queue** (`flexion_queue`): Transfers the extracted/predicted joint angle array from the perception processor to the robot processor.
 
 •	**Robot Queue** (`robot_queue`): Transfers rendered simulator frames and the output alpha metric ($\alpha$, indicating the degree of robot intervention) from the robot processor to the dashboard.
 
@@ -47,7 +47,7 @@ All communication queues are defined with a strict maximum size (`maxsize=2`). T
 # 3. Graceful System Shutdown
 When the user closes the dashboard (invoking the `on_close` handler), the system avoids abrupt termination by signaling through a shared `mp.Event` named `running_event`.
 
-Clearing this event (`clear`) stops the infinite processing loops inside both worker processes (vision and robot). The main system then grants them a 1-second grace period (`join`) to properly release hardware resources (webcam and physics engine context). If a process fails to respond within this window, the system forcefully terminates it (`terminate`) to prevent orphan (zombie) processes from persisting in the operating system background.
+Clearing this event (`clear`) stops the infinite processing loops inside both worker processes (vision and robot). The main system then grants them a 1-second grace period (`join`) to properly release hardware resources (webcam/EMG data streams and physics engine context). If a process fails to respond within this window, the system forcefully terminates it (`terminate`) to prevent orphan (zombie) processes from persisting in the operating system background.
 
 Note: The `mp.freeze_support()` invocation is embedded in the main execution entry point to ensure this multiprocessing architecture compiles and executes correctly under Windows environments without spawning infinite recursive loops.
 
