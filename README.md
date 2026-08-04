@@ -1,7 +1,21 @@
 # rehabilitation-robotic-for-arm
-This project is a simulator for a upper-limb rehabilitation robot covering the arm, forearm, hand, and fingers. By analyzing video of the user’s hand, it estimates the intended movement. If the user's applied force is insufficient, the robot increases its force to assist in completing the desired motion.
-# Hand Rehabilitation Exoskeleton Simulator (Assist-As-Needed)
-The objective of this project is to develop an intelligent simulator for a hand and arm rehabilitation exoskeleton. Since physical hardware equipment was not available during this phase of the project, the system has been designed so that the user's Motion Intent is detected directly through video camera frames and computer vision algorithms.
+This project is a simulator for an upper-limb rehabilitation robot covering the arm, forearm, hand, and fingers. The system evaluates the user's motion intent through two completely distinct approaches (hand video analysis or EMG muscle signal processing). If the force applied by the user is insufficient to complete the movement, the robot increases its assistive force to complete the intended motion.
+# Assist-As-Needed Rehabilitation Exoskeleton Simulator
+Assist-As-Needed Rehabilitation Exoskeleton Simulator
+The goal of this project is to develop an intelligent simulator for an arm and hand exoskeleton. Since physical hardware was unavailable during this phase, the system was designed to detect the user's motion intent through one of the following two perception modules:
+
+**1-Computer Vision:** Tracking hand joints via camera frames.
+
+**2-Electromyography (EMG) Signals:** Interpreting EMG data using machine learning models.
+# Project Structure
+To avoid complexity, the project is divided into three separate folders with distinct capabilities:
+
+`just_hand/`: Controls robot finger movements exclusively through image processing (camera).
+
+`hand_and_arm/`: Simultaneous control of robot fingers and elbow via image processing.
+
+`EMG/`: Controls robot finger movements through muscle signal processing (EMG).
+
 # Assist-As-Needed (AAN) Mechanism
 This project is built upon the AAN (Assist-As-Needed) control strategy. The core logic of this rehabilitation robot is as follows:
 
@@ -9,29 +23,31 @@ This project is built upon the AAN (Assist-As-Needed) control strategy. The core
 
 •	Applying Assistive Force: However, if the control algorithms detect that the individual experiences weakness at certain moments or faces difficulty completing specific angles, the robotic system steps in. In this state, the robot applies a calculated assistive force to aid the patient's hand in completing the movement.
 # Key Features
-•	Real-Time Motion Tracking: Uses a camera to extract the kinematic angles of the 5 fingers, wrist, and elbow in real time.
+•	Dual Isolated Input Support: Kinematic extraction of hand and arm angles using a real-time camera, or grasp pattern prediction using EMG signals.
+
+•	Motion Intent Detection (ML): Utilization of the LightGBM machine learning model for processing temporal and frequency (wavelet) features of muscle signals.
 
 •	Intelligent AAN Controller: Continuously evaluates movement speed and distance to the target to automatically adjust the degree of robotic assistance (Alpha parameter).
 
 •	Physical Simulation: Implements the URDF model of the hand and arm in the PyBullet simulation environment for 3D visualization of the robot's performance.
 
-•	Multiprocessing Architecture: Separates computer vision processing from the robot physics engine to prevent frame drops and provide a seamless, smooth dashboard experience.
+•	Multiprocessing Architecture: Complete isolation of compute-heavy perception tasks from the robot physics engine to prevent frame drops and ensure smooth UI performance.
 # Prerequisites and Installation
 To run this simulator, you will need Python and the following libraries:
 
 ```bash
-pip install numpy opencv-python mediapipe pybullet pillow
+pip install numpy opencv-python mediapipe pybullet pillow scikit-learn lightgbm PyWavelets scipy
 ```
-(Note: The Graphical User Interface is built using Tkinter, which is typically installed by default alongside Python.)
+Note: The Graphical User Interface is built using Tkinter, which is typically installed by default alongside Python.
 # How to Run
-To run the rehabilitation dashboard, simply execute the main file:
+First, navigate to your desired directory (one of the three folders mentioned above), then simply execute the main file:
 
 ```Bash
 python main.py
 ```
 Upon execution, the dashboard window will open, comprising two main sections:
-1.	Camera View: Tracks your hand and extracts joint locations.
-2.	Simulator View: Displays the exoskeleton's status in a virtual environment and assists you in flexing your fingers or arm when needed.
+1.	Sensor/Camera View: Displays live data streams (camera frames or EMG signal plots).
+2.	Simulator View: Displays the real-time status of the exoskeleton inside the virtual environment and visualizes the robot's assistive force level.
 # Technical Documentation
 For an in-depth study of the project's technical concepts, please refer to the docs/ folder:
 
@@ -39,7 +55,9 @@ For an in-depth study of the project's technical concepts, please refer to the d
 
 •	control_algorithm.md: Mathematics behind the AAN controller and how Alpha is calculated.
 
-•	vision_and_filtering.md: Angle calculation methodology and the operation of the One-Euro filter for noise reduction.
+•	vision_and_filtering.md: Angle calculation methodology and the operation of the Kalman filter.
+
+•	emg_processing_and_ml.md: Details regarding feature extraction from EMG signals and machine learning model training.
 
 •	simulation.md: Details of the URDF file and position control in PyBullet.
 # Credits & Attribution
