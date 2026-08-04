@@ -10,9 +10,9 @@ The raw velocity of each DOF is calculated using time-based differentiation (the
 
 $$v_{raw} = \frac{x_t - x_{t-1}}{\Delta t}$$
 
-Note you can also use the velocity that the Kalman filter estimates.
+Note if you want to use vision-based tracking you can also use the velocity that the Kalman filter estimates.
 
-To prevent high-frequency noise from affecting controller decision-making, this raw velocity is passed through an exponential smoothing low-pass filter with a coefficient of $\beta = 0.4$:
+To prevent high-frequency noise from affecting controller decision-making, this raw velocity is passed through an exponential smoothing low-pass filter with a coefficient of $\beta$:
 
 $$v_t = \beta \cdot v_{t-1} + (1 - \beta) \cdot v_{raw}$$
 
@@ -34,7 +34,7 @@ Unlike classical controllers that drive the arm directly to a pre-defined fixed 
 Once the user's motion intent is confirmed (e.g., flexion movement), the system generates a virtual target that moves slightly ahead of the user's current position at a fixed offset (Max Lead).
 The target step increment per time cycle is calculated as follows:
 
-$$Step_{target} = 0.5 \times \Delta t$$
+$$Step_{target} = 0.2 \times \Delta t$$
 
 Then, the dynamic target position ($Target_{dynamic}$) is updated considering the user's current position ($x_t$) and the maximum allowable offset ($Lead_{max} = 0.4$):
 
