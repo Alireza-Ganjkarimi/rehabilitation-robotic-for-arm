@@ -55,7 +55,7 @@ For an in-depth study of the project's technical concepts, please refer to the d
 
 •	control_algorithm.md: Mathematics behind the AAN controller and how Alpha is calculated.
 
-•	vision_and_filtering.md: Angle calculation methodology and the operation of the Kalman filter.
+•	vision_kinematics.md: Angle calculation methodology and the operation of the Kalman filter.
 
 •	emg_processing_and_ml.md: Details regarding feature extraction from EMG signals and machine learning model training.
 
