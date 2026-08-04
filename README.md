@@ -61,5 +61,8 @@ For an in-depth study of the project's technical concepts, please refer to the d
 
 •	simulation.md: Details of the URDF file and position control in PyBullet.
 # Credits & Attribution
-This project incorporates components from [Realhand_description](https://github.com/RealHand-Robotics/Realhand_description) 
-by RealHand-Robotics, used under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+The 3D simulation of the robot's hand region used in this project incorporates parts of the [Realhand_description](https://github.com/RealHand-Robotics/Realhand_description) by RealHand-Robotics, used under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+
+Additionally, the EMG dataset utilized in this work is sourced from the [Ninapro dataset](https://ninapro.hevs.ch/instructions/DB2.html) (DB2 Data version) [1].
+
+[[1] Electromyography data for non-invasive naturally-controlled robotic hand prostheses](https://www.nature.com/articles/sdata201453)
