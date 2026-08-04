@@ -1,20 +1,20 @@
 # Software Architecture and Process Synchronization
-The `main.py` file in this project is not merely a graphical user interface (GUI), but serves as the central orchestrator of the entire rehabilitation system. The primary role of this module is to establish real-time communication among the perception layer (Vision), the control layer (AAN), and the physics layer (PyBullet), ensuring the GUI updates seamlessly without frame drops or latency.
+The `main.py` file in this project is not merely a graphical user interface (GUI), but serves as the central orchestrator of the entire rehabilitation system. The primary role of this module is to establish real-time communication among the perception layer (Vision/EMG), the control layer (AAN), and the physics layer (PyBullet), ensuring the GUI updates seamlessly without frame drops or latency.
 # 1. Multiprocessing Approach
 The single biggest challenge in developing machine vision-based robotic systems in Python is the Global Interpreter Lock (GIL), which prevents true parallel execution of compute-heavy code across multiple CPU cores when using multithreading.
 To overcome this limitation and achieve a high operating frequency, this module employs a Multiprocessing Architecture. Under this architecture, the system is decomposed into three completely independent processes, each operating with its own isolated memory space:
 
-**Process 1: Vision Layer** (`vision_worker_process`)
+**Process 1: Perception Layer (Vision / EMG)** (`vision_worker_process/ emg_worker_process`)
 
-This process is exclusively dedicated to communicating with the webcam and executing the hand-tracking model (`VisionTracker`).
+This process is exclusively dedicated to communicating with the input and executing the tracking model (either `VisionTracker` for camera frames or `EMGTracker` for muscle signals).
 
-•	Frame Management: Once joint angles (flexion) are extracted and the output image is prepared, the data is pushed to communication queues.
+•	Data & Frame Management: Once joint angles (flexion) are extracted/predicted and the visual output (camera frame or EMG signal plot) is prepared, the data is pushed to communication queues. This flexible design allows the system to seamlessly route data from either the vision processor or the EMG processor to the robot controller without altering the core architecture.
 
-•	Latency Prevention: To ensure the system always processes the latest frame, non-blocking `try/except` blocks are used. If a queue is full, the process immediately discards stale data (`get_nowait`) and replaces it with the newly arrived data.
+•	Latency Prevention: To ensure the system always processes the latest Data, non-blocking `try/except` blocks are used. If a queue is full, the process immediately discards stale data (`get_nowait`) and replaces it with the newly arrived data.
 
 **Process 2: Robot Physics & Controller** (`robot_worker_process`)
 
-This process forms the computational and physical engine of the system. Operating in parallel with the camera, it incorporates several critical features:
+This process forms the computational and physical engine of the system. Operating in parallel with the perception sensor (camera or EMG), it incorporates several critical features:
 
 •	**Queue Draining:** This process drains all pending data from the vision queue until it reaches the most recent kinematic sample. This prevents data accumulation and eliminates "time stretch" effects in the controller.
 
