@@ -89,3 +89,31 @@ To map the features extracted from muscle signals to the continuous angles of ha
 
 Since standard regression algorithms are typically capable of predicting only a single output value, the base LightGBM model is wrapped inside the `MultiOutputRegressor` class. This class manages the architecture by creating 5 completely independent LightGBM models under the hood instead of a single monolithic model. In other words, the system feeds the exact same input feature array to all models, but each of the 5 models is specialized, trained, and optimized in parallel to exclusively predict the angle of one specific finger.
 
+# 6. Real-Time Data Streaming
+In this simulator, when a user selects a motion type (e.g., Power Sphere or Index Finger Movement) via the dashboard, the robot is not directly controlled by this selection. Instead, this trigger simply instructs the `EMGTracker` module to query the database and locate the raw EMG signals corresponding to the test samples (held-out repetition 5) for that specific movement. The system then uses an index pointer to extract these signals as sliding time windows, extracts their features, and feeds them into the machine learning model. In fact, the machine learning model predicts joint flexion completely blindly, solely based on the incoming muscle signal stream.
+
+# 7. Post-Processing Pipeline and Kinematic Stabilization
+The raw outputs predicted by the machine learning model (i.e., estimated flexion values for the five fingers) may contain jitter or noise. To convert these model predictions into smooth, joint-safe movement angles for the robot, the estimates pass through a multi-stage processing pipeline:
+
+•	**Deadzone:** To eliminate model noise during rest-state predictions and prevent signal crosstalk, a dedicated deadzone threshold is defined for each finger's predicted flexion. If the predicted flexion for a finger falls below this threshold, it is treated as noise and forced directly to zero.
+
+•	**Renormalization:** To prevent sudden jumps in finger position once predicted flexion exceeds the deadzone, active values are renormalized to transition smoothly starting from zero up to one:
+
+$$Flex_{norm} = \frac{Flex_{pred} - Threshold}{1.0 - Threshold}$$
+
+•	**Dynamic Synergy Application:** At this stage, the system evaluates the pattern of values predicted by the machine learning model to detect the functional movement type, applying synergy logic (similar to training time) for stabilization:
+
+o	Power Grasp: If the algorithm detects that the predicted thumb flexion exceeds a specific threshold (active) while the average model prediction for the other fingers is also high, it interprets the user's intent as a full hand closure. In this case, all finger angles are locked to their collective average, closing the robotic hand uniformly.
+
+o	Tip Pinch: If predicted values for the thumb and index finger are high (active) while predicted outputs for the other three fingers remain at rest (below threshold), the system identifies a pinch pattern. Consequently, thumb and index angles are set to their joint average, and the outputs for the remaining three fingers are forced to zero to prevent interference.
+
+•	Temporal Smoothing: In the final step, to remove high-frequency fluctuations and ensure fluid robot movement, the corrected model predictions pass through an Exponential Moving Average (EMA) low-pass filter. This filter blends the new predicted flexion with the previous joint state:
+
+$$Flex_t = \alpha \cdot Flex_{new\_pred} + (1 - \alpha) \cdot Flex_{t-1}$$
+
+where $\alpha$ represents the system's smoothing factor.
+
+# 8. Signal Visualization
+To provide visual feedback to the user on the interactive dashboard, this module generates a multi-channel graphical plot of the raw EMG data corresponding to the user-selected movement within each time window. This chart plots the values of all 12 channels using distinct colors as line graphs and updates continuously, allowing the real-time muscle contraction status to be observed live by the user or therapist.
+
+
