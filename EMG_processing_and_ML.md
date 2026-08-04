@@ -84,3 +84,8 @@ $$Entropy = - \sum_{j=1}^{4} p_j \log_2(p_j)$$
 
 Lower entropy values indicate energy concentration within a specific frequency band (rhythmic, coordinated contraction), while higher values reflect an even distribution of energy across all bands (such as rest state). This distinction provides a set of effective features for motion pattern classification by the LightGBM model.
 
+# 5. Machine Learning Model and Kinematics Prediction 
+To map the features extracted from muscle signals to the continuous angles of hand joints, this project addresses a multi-target regression problem. To solve this problem, the LightGBM (Light Gradient Boosting Machine) algorithm was utilized due to its strength in modeling complex relationships, high speed, and computational efficiency.
+
+Since standard regression algorithms are typically capable of predicting only a single output value, the base LightGBM model is wrapped inside the `MultiOutputRegressor` class. This class manages the architecture by creating 5 completely independent LightGBM models under the hood instead of a single monolithic model. In other words, the system feeds the exact same input feature array to all models, but each of the 5 models is specialized, trained, and optimized in parallel to exclusively predict the angle of one specific finger.
+
