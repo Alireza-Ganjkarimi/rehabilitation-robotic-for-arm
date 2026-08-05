@@ -92,7 +92,7 @@ Since standard regression algorithms are typically capable of predicting only a 
 The evaluation results regarding the performance of the machine learning model in estimating joint angles for the training samples (corresponding to repetitions 0, 1, 3, 4, and 6) and test samples (corresponding to repetitions 2 and 5 of the subject) are presented in the table below.
 <p align="center">
   <b>Table 1: Evaluation Results</b><br>
-  <img src="https://github.com/user-attachments/assets/96279aef-a602-4363-886e-81f07f72a1e1" width="100%">
+  <img src="https://github.com/user-attachments/assets/781da955-81c0-49c9-8e01-46e846a5b456" width="100%">
 </p>
 
 
