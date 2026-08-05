@@ -67,7 +67,7 @@ Given the mechanical and inertial differences between the heavy arm segments and
 
 <p align="center">
   <b>Table 1: Maximum Allowed Torque and Velocity for Each Joint</b><br>
-  <img src="https://github.com/user-attachments/assets/afc74869-d6e9-4c17-bf3f-11e6f4c52044" width="100%">
+  <img src="https://github.com/user-attachments/assets/7751b59e-b5bb-4c0c-9372-49ed9ecd1a19" width="100%">
 </p>
 By capping the torque to 20 N.m for the elbow and 0.5 N.m for the fingers, the simulator accurately reflects a real-world scenario where the robot cannot drive the joint with infinite torque if severe physical resistance (e.g., patient muscle spasticity) is encountered. This guarantees Human-Robot Interaction safety within the simulation.
 
