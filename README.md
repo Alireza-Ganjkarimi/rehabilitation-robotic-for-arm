@@ -10,9 +10,9 @@ The goal of this project is to develop an intelligent simulator for an arm and h
 # Project Structure
 To avoid complexity, the project is divided into three separate folders with distinct capabilities:
 
-`just_hand/`: Controls robot finger movements exclusively through image processing (camera).
+`just hand/`: Controls robot finger movements exclusively through image processing (camera).
 
-`hand_and_arm/`: Simultaneous control of robot fingers and elbow via image processing.
+`hand and arm/`: Simultaneous control of robot fingers and elbow via image processing.
 
 `EMG/`: Controls robot finger movements through muscle signal processing (sEMG).
 
