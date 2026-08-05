@@ -49,6 +49,15 @@ python main.py
 Upon execution, the dashboard window will open, comprising two main sections:
 1.	Sensor/Camera View: Displays live data streams (camera frames or sEMG signal plots).
 2.	Simulator View: Displays the real-time status of the exoskeleton inside the virtual environment and visualizes the robot's assistive force level.
+
+# Results and Demonstrations
+The performance of the AAN rehabilitation robot simulator has been validated using both Computer Vision and EMG signal processing. Below are visual demonstrations of the system in action.
+
+## 1. EMG-Based Control
+In this mode, utilizing test dataset, the LightGBM model predicts the user's intent purely from 12-channel surface EMG signals. The dynamic synergy filter ensures stable functional grasps. 
+Power Grip (Dynamic Synergy) | Tip Pinch (Dynamic Synergy) |
+| :---: | :---: |
+| <img src="docs/assets/emg_power_grip.jpg" width="400"> | <img src="docs/assets/emg_tip_pinch.jpg" width="400"> |
 # Technical Documentation
 For an in-depth study of the project's technical concepts, please refer to the docs/ folder:
 
