@@ -2,7 +2,6 @@
 This project is a simulator for an upper-limb rehabilitation robot covering the arm, forearm, hand, and fingers. The system evaluates the user's motion intent through two completely distinct approaches (hand video analysis or sEMG muscle signal processing). If the force applied by the user is insufficient to complete the movement, the robot increases its assistive force to complete the intended motion. Therefore, for real-world applications, the primary goal of this robot is to maximize the user's active muscular participation and prevent muscle slacking.
 
 # Assist-As-Needed Rehabilitation Exoskeleton Simulator
-Assist-As-Needed Rehabilitation Exoskeleton Simulator
 The goal of this project is to develop an intelligent simulator for an arm and hand rehabilitation exoskeleton. Since physical hardware was unavailable during this phase, the system was designed to detect the user's motion intent through one of the following two perception modules:
 
 **1-Computer Vision:** Tracking hand joints via camera frames.
@@ -55,9 +54,85 @@ The performance of the AAN rehabilitation robot simulator has been validated usi
 
 ## 1. EMG-Based Control
 In this mode, utilizing test dataset, the LightGBM model predicts the user's intent purely from 12-channel surface EMG signals. The dynamic synergy filter ensures stable functional grasps. 
-Power Grip (Dynamic Synergy) | Tip Pinch (Dynamic Synergy) |
-| :---: | :---: |
-| <img src="docs/assets/emg_power_grip.jpg" width="400"> | <img src="docs/assets/emg_tip_pinch.jpg" width="400"> |
+
+<div align="center">
+  
+  <img src="https://github.com/user-attachments/assets/45199bd4-7eab-477f-b22f-15beeebb4f45" width="500">
+  <p><b>a)</b></p>
+  
+  <br>
+
+  <img src= "https://github.com/user-attachments/assets/708e274a-1b3e-45e3-bb2a-e65fcd01b0ea" width="500">
+  <p><b>b)</b></p>
+
+  <p align="left">
+    <i><b>Fig. 1:</b> <b>a)</b> Robot motion response to the control command extracted from the EMG signal in the Rest state. <b>b)</b> Reference motion pattern corresponding to the EMG signal in the Rest state.</i>
+  </p>
+
+</div>
+
+<div align="center">
+  
+  <img src= "https://github.com/user-attachments/assets/2a5174ad-ba40-4358-8a03-c4037c907015" width="500">
+  <p><b>a)</b></p>
+  
+  <br>
+
+  <img src= "https://github.com/user-attachments/assets/f9c8c295-0d37-402c-9abb-2b07ee5ce030" width="500">
+  <p><b>b)</b></p>
+
+  <p align="left">
+    <i><b>Fig. 2:</b> <b>a)</b> Robot motion response to the control command extracted from the EMG signal in the Index Flexion state. <b>b)</b> Reference motion pattern corresponding to the EMG signal in the Index Flexion state.</i>
+  </p>
+
+</div>
+
+<div align="center">
+  
+  <img src= "https://github.com/user-attachments/assets/6277aae2-2b28-47cc-bd1d-a311f75ca0dd" width="500">
+  <p><b>a)</b></p>
+  
+  <br>
+
+  <img src= "https://github.com/user-attachments/assets/755755d3-fe82-4938-be13-9f9faafa2558" width="500">
+  <p><b>b)</b></p>
+
+  <p align="left">
+    <i><b>Fig. 3:</b> <b>a)</b> Robot motion response to the control command extracted from the EMG signal in the Middle Flexion state. <b>b)</b> Reference motion pattern corresponding to the EMG signal in the Middle Flexion state.</i>
+  </p>
+
+</div>
+
+<div align="center">
+  
+  <img src= "https://github.com/user-attachments/assets/d12e477d-b8a9-4beb-9564-ab5a15db13a0" width="500">
+  <p><b>a)</b></p>
+  
+  <br>
+
+  <img src= "https://github.com/user-attachments/assets/95c06802-83ff-43c4-b0ef-46a7d31e349c" width="500">
+  <p><b>b)</b></p>
+
+  <p align="left">
+    <i><b>Fig. 4:</b> <b>a)</b> Robot motion response to the control command extracted from the EMG signal in the Ring Flexion state. <b>b)</b> Reference motion pattern corresponding to the EMG signal in the Ring Flexion state.</i>
+  </p>
+
+  <div align="center">
+  
+  <img src= "https://github.com/user-attachments/assets/c4469993-6eca-4800-a8c9-8e2effc4aa99"  width="500">
+  <p><b>a)</b></p>
+  
+  <br>
+
+  <img src= "https://github.com/user-attachments/assets/479b1373-c030-4a95-b4d1-bbd7e8d9ab9c" width="500">
+  <p><b>b)</b></p>
+
+  <p align="left">
+    <i><b>Fig. 5:</b> <b>a)</b> Robot motion response to the control command extracted from the EMG signal in the Little Finger Flexion state. <b>b)</b> Reference motion pattern corresponding to the EMG signal in the Little Finger Flexion state.</i>
+  </p>
+
+</div>
+
 # Technical Documentation
 For an in-depth study of the project's technical concepts, please refer to the docs/ folder:
 
