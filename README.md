@@ -232,6 +232,36 @@ In this mode, the system tracks hand kinematics from hand video and actuates the
   </p>
 </div>
 
+<div align="center">
+  
+  <img src= "https://github.com/user-attachments/assets/bc7c86aa-628b-495a-91f1-b0d46ab45d66" width="500">
+  <p><b>a)</b></p>
+  
+  <br>
+
+  <img src= "https://github.com/user-attachments/assets/c12b7106-7782-432d-9c48-1ebb1e602bd1" width="500">
+  <p><b>b)</b></p>
+
+  <p align="left">
+    <i><b>Fig. 12:</b> <b>a)</b> Robot motion response to the control command extracted via hand video processing during execution of elbow flexion. <b>b)</b> Robot motion response to the control command extracted via hand video processing during incomplete execution of elbow flexion (to simulate movement inability).</i>
+  </p>
+</div>
+
+<div align="center">
+  
+  <img src= "https://github.com/user-attachments/assets/2e5a6592-8056-4271-b12c-babf9ba6dcfa" width="500">
+  <p><b>a)</b></p>
+  
+  <br>
+
+  <img src= "https://github.com/user-attachments/assets/d0e2b3fd-e245-4bba-9e46-8dc7afca3b0d" width="500">
+  <p><b>b)</b></p>
+
+  <p align="left">
+    <i><b>Fig. 13:</b> <b>a)</b> Robot motion response to the control command extracted via hand video processing during full execution of elbow extension. <b>b)</b> Robot motion response to the control command extracted via hand video processing during incomplete execution of elbow extension (to simulate movement inability).</i>
+  </p>
+</div>
+
 ## 3. Full Video Demonstrations
 For a comprehensive look at the system's performance, real-time synchronization, and GUI responsiveness, please watch the full demonstration videos:
 
