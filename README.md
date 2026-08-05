@@ -117,6 +117,8 @@ In this mode, utilizing test dataset, the LightGBM model predicts the user's int
     <i><b>Fig. 4:</b> <b>a)</b> Robot motion response to the control command extracted from the EMG signal in the Ring Flexion state. <b>b)</b> Reference motion pattern corresponding to the EMG signal in the Ring Flexion state.</i>
   </p>
 
+  </div>
+
   <div align="center">
   
   <img src= "https://github.com/user-attachments/assets/1b37beb8-38d0-4bf3-8486-516c54808b60" width="500">
@@ -164,9 +166,71 @@ In this mode, utilizing test dataset, the LightGBM model predicts the user's int
   <p align="left">
     <i><b>Fig. 7:</b> <b>a)</b> Robot motion response to the control command extracted from the EMG signal in the Tip Pinch Grasp state. <b>b)</b> Reference motion pattern corresponding to the EMG signal in the Tip Pinch Grasp state.</i>
   </p>
-
 </div>
 
+## 1. Vision-Based Control
+
+In this mode, the system tracks hand kinematics from hand video and actuates the robot accordingly.
+
+<div align="center">
+  
+  <img src= "https://github.com/user-attachments/assets/085410b2-df9d-4192-be42-216bfc56b0e6" width="500">
+  <p><b>a)</b></p>
+  
+  <br>
+
+  <img src= "https://github.com/user-attachments/assets/a3bae39b-e374-4210-87b2-ecd5d5f873e4" width="500">
+  <p><b>b)</b></p>
+
+  <p align="left">
+    <i><b>Fig. 8:</b> <b>a)</b> Robot motion response to the control command extracted via hand video processing during full execution of index finger extension. <b>b)</b> Robot motion response to the control command extracted via hand video processing during incomplete execution of index finger extension (to simulate movement inability).</i>
+  </p>
+</div>
+
+<div align="center">
+  
+  <img src= "https://github.com/user-attachments/assets/130c7311-94dd-43f2-a47e-7a9b07b479c3" width="500">
+  <p><b>a)</b></p>
+  
+  <br>
+
+  <img src= "https://github.com/user-attachments/assets/961ba562-d1fc-4ac7-a2da-66f7f897952a" width="500">
+  <p><b>b)</b></p>
+
+  <p align="left">
+    <i><b>Fig. 9:</b> <b>a)</b> Robot motion response to the control command extracted via hand video processing during full execution of index and middle finger extension. <b>b)</b> Robot motion response to the control command extracted via hand video processing during incomplete execution of index and middle finger extension (to simulate movement inability).</i>
+  </p>
+</div>
+
+<div align="center">
+  
+  <img src= "https://github.com/user-attachments/assets/730c0f35-882c-4642-a1bb-83400c1adc7a" width="500">
+  <p><b>a)</b></p>
+  
+  <br>
+
+  <img src= "https://github.com/user-attachments/assets/12ad2397-e790-40d9-b948-a7bf025863d9" width="500">
+  <p><b>b)</b></p>
+
+  <p align="left">
+    <i><b>Fig. 10:</b> <b>a)</b> Robot motion response to the control command extracted via hand video processing during full execution of little finger extension. <b>b)</b> Robot motion response to the control command extracted via hand video processing during incomplete execution of little finger extension (to simulate movement inability).</i>
+  </p>
+</div>
+
+<div align="center">
+  
+  <img src= "https://github.com/user-attachments/assets/d05552c8-863c-4263-962b-04ab154f0389" width="500">
+  <p><b>a)</b></p>
+  
+  <br>
+
+  <img src= "https://github.com/user-attachments/assets/06c35a28-9aa6-4e1e-a39b-aa8354bfbb4f" width="500">
+  <p><b>b)</b></p>
+
+  <p align="left">
+    <i><b>Fig. 11:</b> <b>a)</b> Robot motion response to the control command extracted via hand video processing during full execution of fist clenching movement. <b>b)</b> Robot motion response to the control command extracted via hand video processing during incomplete execution of fist clenching movement (to simulate movement inability).</i>
+  </p>
+</div>
 
 # Technical Documentation
 For an in-depth study of the project's technical concepts, please refer to the docs/ folder:
