@@ -57,7 +57,7 @@ In this mode, utilizing test dataset, the LightGBM model predicts the user's int
 
 <div align="center">
   
-  <img src="https://github.com/user-attachments/assets/45199bd4-7eab-477f-b22f-15beeebb4f45" width="500">
+  <img src="https://github.com/user-attachments/assets/f4d9b1e3-8bf4-4f2c-b801-19fa38006cc9" width="500">
   <p><b>a)</b></p>
   
   <br>
@@ -73,7 +73,7 @@ In this mode, utilizing test dataset, the LightGBM model predicts the user's int
 
 <div align="center">
   
-  <img src= "https://github.com/user-attachments/assets/2a5174ad-ba40-4358-8a03-c4037c907015" width="500">
+  <img src= "https://github.com/user-attachments/assets/67244461-8b3b-4f9d-bf73-c7f60d6016a1" width="500">
   <p><b>a)</b></p>
   
   <br>
@@ -89,7 +89,7 @@ In this mode, utilizing test dataset, the LightGBM model predicts the user's int
 
 <div align="center">
   
-  <img src= "https://github.com/user-attachments/assets/6277aae2-2b28-47cc-bd1d-a311f75ca0dd" width="500">
+  <img src= "https://github.com/user-attachments/assets/1b6631a5-915b-4ffd-9289-e3b6bef5f4e6" width="500">
   <p><b>a)</b></p>
   
   <br>
@@ -105,7 +105,7 @@ In this mode, utilizing test dataset, the LightGBM model predicts the user's int
 
 <div align="center">
   
-  <img src= "https://github.com/user-attachments/assets/d12e477d-b8a9-4beb-9564-ab5a15db13a0" width="500">
+  <img src= "https://github.com/user-attachments/assets/ca68db15-8e51-42f3-8073-80808660bb69" width="500">
   <p><b>a)</b></p>
   
   <br>
@@ -119,7 +119,8 @@ In this mode, utilizing test dataset, the LightGBM model predicts the user's int
 
   <div align="center">
   
-  <img src= "https://github.com/user-attachments/assets/c4469993-6eca-4800-a8c9-8e2effc4aa99"  width="500">
+  <img src= "https://github.com/user-attachments/assets/1b37beb8-38d0-4bf3-8486-516c54808b60" width="500">
+
   <p><b>a)</b></p>
   
   <br>
@@ -132,6 +133,40 @@ In this mode, utilizing test dataset, the LightGBM model predicts the user's int
   </p>
 
 </div>
+
+  <div align="center">
+  
+  <img src= "https://github.com/user-attachments/assets/f9e14940-82af-4f7c-ab71-f4e1eeb99037"  width="500">
+  <p><b>a)</b></p>
+  
+  <br>
+
+  <img src= "https://github.com/user-attachments/assets/a53f22a9-8285-4c9b-b245-092bb43c655b" width="500">
+  <p><b>b)</b></p>
+
+  <p align="left">
+    <i><b>Fig. 6:</b> <b>a)</b> Robot motion response to the control command extracted from the EMG signal in the Sphere Grasp state. <b>b)</b> Reference motion pattern corresponding to the EMG signal in the Sphere Grasp state.</i>
+  </p>
+
+</div>
+
+
+<div align="center">
+  
+  <img src= "https://github.com/user-attachments/assets/5cff795b-f302-4fd2-b24b-bdedfa379cc9" width="500">
+  <p><b>a)</b></p>
+  
+  <br>
+
+  <img src= "https://github.com/user-attachments/assets/47abbf1a-879d-4421-9c95-c38fee87def8" width="500">
+  <p><b>b)</b></p>
+
+  <p align="left">
+    <i><b>Fig. 7:</b> <b>a)</b> Robot motion response to the control command extracted from the EMG signal in the Tip Pinch Grasp state. <b>b)</b> Reference motion pattern corresponding to the EMG signal in the Tip Pinch Grasp state.</i>
+  </p>
+
+</div>
+
 
 # Technical Documentation
 For an in-depth study of the project's technical concepts, please refer to the docs/ folder:
