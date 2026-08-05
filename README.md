@@ -168,7 +168,7 @@ In this mode, utilizing test dataset, the LightGBM model predicts the user's int
   </p>
 </div>
 
-## 1. Vision-Based Control
+## 2. Vision-Based Control
 
 In this mode, the system tracks hand kinematics from hand video and actuates the robot accordingly.
 
@@ -231,6 +231,11 @@ In this mode, the system tracks hand kinematics from hand video and actuates the
     <i><b>Fig. 11:</b> <b>a)</b> Robot motion response to the control command extracted via hand video processing during full execution of fist clenching movement. <b>b)</b> Robot motion response to the control command extracted via hand video processing during incomplete execution of fist clenching movement (to simulate movement inability).</i>
   </p>
 </div>
+
+## 3. Full Video Demonstrations
+For a comprehensive look at the system's performance, real-time synchronization, and GUI responsiveness, please watch the full demonstration videos:
+
+https://drive.google.com/drive/folders/1ukLdW0M4PIKs8igog3_CU-pt_3ShxvSk?usp=sharing 
 
 # Technical Documentation
 For an in-depth study of the project's technical concepts, please refer to the docs/ folder:
