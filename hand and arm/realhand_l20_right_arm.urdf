@@ -1,0 +1,1436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="realhand_l20_right_v9.0_urdf">
+<!-- ========================================== -->
+  <!-- Adding the robotic arm (shoulder, elbow, forearm) -->
+  <!-- ========================================== -->
+
+  <!-- 1. Fixed shoulder base (Shoulder Base) -->
+  <link name="shoulder_base">
+    <inertial>
+      <mass value="2.0" />
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.1" />
+      </geometry>
+      <material name="blue_base">
+        <color rgba="0.1 0.3 0.7 1" />
+      </material>
+    </visual>
+  </link>
+
+  <!-- 2. Shoulder joint (Shoulder Pitch) -->
+  <joint name="shoulder_pitch" type="fixed">
+    <parent link="shoulder_base" />
+    <child link="upper_arm_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1.57" upper="1.57" effort="50" velocity="2.0" />
+  </joint>
+
+  <!-- 3. Arm link (Upper Arm) -->
+  <link name="upper_arm_link">
+    <inertial>
+      <!-- Moving the center of mass to the middle of the cylinder -->
+      <origin xyz="0 0 -0.15" rpy="0 0 0" />
+      <mass value="1.5" />
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.005" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.15" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.04" length="0.3" />
+      </geometry>
+      <material name="grey_arm">
+        <color rgba="0.7 0.7 0.7 1" />
+      </material>
+    </visual>
+  </link>
+
+  <!-- 4. Elbow joint (Elbow Pitch) -->
+  <joint name="elbow_pitch" type="revolute">
+    <parent link="upper_arm_link" />
+    <child link="forearm_link" />
+    <!-- Placing this joint at the lower end of the arm -->
+    <origin xyz="0 0 -0.3" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="0" upper="2.5" effort="40" velocity="2.0" />
+  </joint>
+
+  <!-- 5. Forearm link (Forearm) -->
+  <link name="forearm_link">
+    <inertial>
+      <origin xyz="0 0 -0.125" rpy="0 0 0" />
+      <mass value="1.0" />
+      <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.002" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.125" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.035" length="0.25" />
+      </geometry>
+      <material name="grey_arm">
+        <color rgba="0.7 0.7 0.7 1" />
+      </material>
+    </visual>
+  </link>
+
+  <!-- 6. Connecting the forearm to the current wrist (Wrist Connection) -->
+<joint name="wrist_joint" type="revolute">
+    <parent link="forearm_link" />
+    <child link="base_link" />
+    <origin xyz="0 0 -0.25" rpy="3.1416 0 0" /> 
+    <axis xyz="0 1 0" />
+    <limit lower="-1.57" upper="1.57" effort="20" velocity="2.0" />
+  </joint>
+
+  <!-- ========================================== -->
+  <!-- The hand and fingers codes start from here -->
+  <!-- ========================================== -->
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.0116260966942382 -0.00274813279998326 0.0887556064299578"
+        rpy="0 0 0" />
+      <mass
+        value="0.119355521222427" />
+      <inertia
+        ixx="0.000281608895823112"
+        ixy="8.38474241472843E-07"
+        ixz="-1.21134466138976E-05"
+        iyy="0.00019328567036429"
+        iyz="4.38631241419914E-07"
+        izz="0.000103627416878272" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="pinky_metacarpals">
+    <inertial>
+      <origin
+        xyz="0.0111783787153197 1.73988259632996E-08 0.00220160108534925"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.015 kg (15g) for biomechanical accuracy and simulation stability -->
+      <mass
+        value="0.015" />
+      <!-- CHANGED: Scaled inertia to 1.0e-5 to prevent solver explosion in PyBullet -->
+      <inertia
+        ixx="1.0e-5"
+        ixy="0"
+        ixz="0"
+        iyy="1.0e-5"
+        iyz="0"
+        izz="1.0e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/pinky_metacarpals.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/pinky_metacarpals.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="pinky_mcp_roll"
+    type="revolute">
+    <origin
+      xyz="-0.028576 -0.038102 0.15031"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="pinky_metacarpals" />
+    <axis
+      xyz="1 0 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s to match safe robotic limits -->
+    <limit
+      lower="-0.17"
+      upper="0.17"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="pinky_proximal">
+    <inertial>
+      <origin
+        xyz="-0.00112908280804496 -3.86673394475734E-06 0.0228400655439676"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.015 kg (15g) -->
+      <mass
+        value="0.015" />
+      <!-- CHANGED: Scaled inertia to 1.0e-5 -->
+      <inertia
+        ixx="1.0e-5"
+        ixy="0"
+        ixz="0"
+        iyy="1.0e-5"
+        iyz="0"
+        izz="1.0e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/pinky_proximal.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.807843137254902 0.843137254901961 0.905882352941176 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/pinky_proximal.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="pinky_mcp_pitch"
+    type="revolute">
+    <origin
+      xyz="0.016675 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="pinky_metacarpals" />
+    <child
+      link="pinky_proximal" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.4"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="pinky_middle">
+    <inertial>
+      <origin
+        xyz="-0.000210918582412463 -2.91656475989721E-06 0.0168376013644396"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.010 kg (10g) -->
+      <mass
+        value="0.010" />
+      <!-- CHANGED: Scaled inertia to 5.0e-6 -->
+      <inertia
+        ixx="5.0e-6"
+        ixy="0"
+        ixz="0"
+        iyy="5.0e-6"
+        iyz="0"
+        izz="5.0e-6" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/pinky_middle.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/pinky_middle.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="pinky_pip"
+    type="revolute">
+    <origin
+      xyz="-0.00419455244191127 1.32099958100595E-05 0.0448194355633776"
+      rpy="0 0 0" />
+    <parent
+      link="pinky_proximal" />
+    <child
+      link="pinky_middle" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.57"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="pinky_distal">
+    <inertial>
+      <origin
+        xyz="-0.00807040294887727 -1.95860163051398E-05 0.00803087332396402"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.005 kg (5g) -->
+      <mass
+        value="0.005" />
+      <!-- CHANGED: Scaled inertia to 2.0e-6 -->
+      <inertia
+        ixx="2.0e-6"
+        ixy="0"
+        ixz="0"
+        iyy="2.0e-6"
+        iyz="0"
+        izz="2.0e-6" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/pinky_distal.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/pinky_distal.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="pinky_dip"
+    type="revolute">
+    <origin
+      xyz="0.0027556 0 0.031702"
+      rpy="0 0 0" />
+    <parent
+      link="pinky_middle" />
+    <child
+      link="pinky_distal" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.4"
+      effort="0.5"
+      velocity="3.0" />
+    <mimic
+      joint="pinky_pip"
+      multiplier="0.8917"
+      offset="0" />
+  </joint>
+  <link
+    name="ring_metacarpals">
+    <inertial>
+      <origin
+        xyz="0.0111783787153197 -5.36905619352712E-07 0.0022016396219149"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.015 kg (15g) -->
+      <mass
+        value="0.015" />
+      <!-- CHANGED: Scaled inertia to 1.0e-5 -->
+      <inertia
+        ixx="1.0e-5"
+        ixy="0"
+        ixz="0"
+        iyy="1.0e-5"
+        iyz="0"
+        izz="1.0e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/ring_metacarpals.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/ring_metacarpals.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="ring_mcp_roll"
+    type="revolute">
+    <origin
+      xyz="-0.032199 -0.016502 0.15931"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="ring_metacarpals" />
+    <axis
+      xyz="1 0 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="-0.17"
+      upper="0.17"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="ring_proximal">
+    <inertial>
+      <origin
+        xyz="-0.00112908262583935 -1.70769630077061E-05 0.0228400659770985"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.015 kg (15g) -->
+      <mass
+        value="0.015" />
+      <!-- CHANGED: Scaled inertia to 1.0e-5 -->
+      <inertia
+        ixx="1.0e-5"
+        ixy="0"
+        ixz="0"
+        iyy="1.0e-5"
+        iyz="0"
+        izz="1.0e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/ring_proximal.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.807843137254902 0.843137254901961 0.905882352941176 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/ring_proximal.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="ring_mcp_pitch"
+    type="revolute">
+    <origin
+      xyz="0.016675 1.2656E-05 0"
+      rpy="0 0 0" />
+    <parent
+      link="ring_metacarpals" />
+    <child
+      link="ring_proximal" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.4"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="ring_middle">
+    <inertial>
+      <origin
+        xyz="-0.00021091859446306 -2.91657898018882E-06 0.0168376013345287"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.010 kg (10g) -->
+      <mass
+        value="0.010" />
+      <!-- CHANGED: Scaled inertia to 5.0e-6 -->
+      <inertia
+        ixx="5.0e-6"
+        ixy="0"
+        ixz="0"
+        iyy="5.0e-6"
+        iyz="0"
+        izz="5.0e-6" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/ring_middle.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/ring_middle.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="ring_pip"
+    type="revolute">
+    <origin
+      xyz="-0.00419455244174995 0 0.0448194355645609"
+      rpy="0 0 0" />
+    <parent
+      link="ring_proximal" />
+    <child
+      link="ring_middle" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.57"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="ring_distal">
+    <inertial>
+      <origin
+        xyz="-0.00807040294866931 -1.9586017669021E-05 0.00803087256062983"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.005 kg (5g) -->
+      <mass
+        value="0.005" />
+      <!-- CHANGED: Scaled inertia to 2.0e-6 -->
+      <inertia
+        ixx="2.0e-6"
+        ixy="0"
+        ixz="0"
+        iyy="2.0e-6"
+        iyz="0"
+        izz="2.0e-6" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/ring_distal.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/ring_distal.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="ring_dip"
+    type="revolute">
+    <origin
+      xyz="0.00275561956405355 0 0.0317024252327154"
+      rpy="0 0 0" />
+    <parent
+      link="ring_middle" />
+    <child
+      link="ring_distal" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.4"
+      effort="0.5"
+      velocity="3.0" />
+    <mimic
+      joint="ring_pip"
+      multiplier="0.8917"
+      offset="0" />
+  </joint>
+  <link
+    name="middle_metacarpals">
+    <inertial>
+      <origin
+        xyz="0.0111783787153198 -5.36905619463734E-07 0.00220163962191467"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.015 kg (15g) -->
+      <mass
+        value="0.015" />
+      <!-- CHANGED: Scaled inertia to 1.0e-5 -->
+      <inertia
+        ixx="1.0e-5"
+        ixy="0"
+        ixz="0"
+        iyy="1.0e-5"
+        iyz="0"
+        izz="1.0e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/middle_metacarpals.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/middle_metacarpals.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="middle_mcp_roll"
+    type="revolute">
+    <origin
+      xyz="-0.0345042006792679 0.00509811417717426 0.163804307612682"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="middle_metacarpals" />
+    <axis
+      xyz="0.999999999998204 0 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="-0.17"
+      upper="0.17"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="middle_proximal">
+    <inertial>
+      <origin
+        xyz="-0.00112908264667504 -1.70765644096349E-05 0.0228400658126111"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.015 kg (15g) -->
+      <mass
+        value="0.015" />
+      <!-- CHANGED: Scaled inertia to 1.0e-5 -->
+      <inertia
+        ixx="1.0e-5"
+        ixy="0"
+        ixz="0"
+        iyy="1.0e-5"
+        iyz="0"
+        izz="1.0e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/middle_proximal.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.807843137254902 0.843137254901961 0.905882352941176 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/middle_proximal.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="middle_mcp_pitch"
+    type="revolute">
+    <origin
+      xyz="0.0166748095398548 1.26556862705962E-05 0"
+      rpy="0 0 0" />
+    <parent
+      link="middle_metacarpals" />
+    <child
+      link="middle_proximal" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.4"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="middle_middle">
+    <inertial>
+      <origin
+        xyz="-0.000210918582531389 -2.91656481549163E-06 0.0168376013611927"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.010 kg (10g) -->
+      <mass
+        value="0.010" />
+      <!-- CHANGED: Scaled inertia to 5.0e-6 -->
+      <inertia
+        ixx="5.0e-6"
+        ixy="0"
+        ixz="0"
+        iyy="5.0e-6"
+        iyz="0"
+        izz="5.0e-6" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/middle_middle.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/middle_middle.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="middle_pip"
+    type="revolute">
+    <origin
+      xyz="-0.00419455244189623 0 0.0448194355665477"
+      rpy="0 0 0" />
+    <parent
+      link="middle_proximal" />
+    <child
+      link="middle_middle" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.57"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="middle_distal">
+    <inertial>
+      <origin
+        xyz="-0.00807040294827011 -1.95860161913697E-05 0.00803087332606282"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.005 kg (5g) -->
+      <mass
+        value="0.005" />
+      <!-- CHANGED: Scaled inertia to 2.0e-6 -->
+      <inertia
+        ixx="2.0e-6"
+        ixy="0"
+        ixz="0"
+        iyy="2.0e-6"
+        iyz="0"
+        izz="2.0e-6" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/middle_distal.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/middle_distal.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="middle_dip"
+    type="revolute">
+    <origin
+      xyz="0.00275561956368908 0 0.031702425228504"
+      rpy="0 0 0" />
+    <parent
+      link="middle_middle" />
+    <child
+      link="middle_distal" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.4"
+      effort="0.5"
+      velocity="3.0" />
+    <mimic
+      joint="middle_pip"
+      multiplier="0.8917"
+      offset="0" />
+  </joint>
+  <link
+    name="index_metacarpals">
+    <inertial>
+      <origin
+        xyz="0.0111783787153197 -5.36905619408223E-07 0.0022016396219149"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.015 kg (15g) -->
+      <mass
+        value="0.015" />
+      <!-- CHANGED: Scaled inertia to 1.0e-5 -->
+      <inertia
+        ixx="1.0e-5"
+        ixy="0"
+        ixz="0"
+        iyy="1.0e-5"
+        iyz="0"
+        izz="1.0e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/index_metacarpals.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/index_metacarpals.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="index_mcp_roll"
+    type="revolute">
+    <origin
+      xyz="-0.0297703583048348 0.026698113515616 0.159311418025823"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="index_metacarpals" />
+    <axis
+      xyz="0.999999999998204 0 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="-0.17"
+      upper="0.17"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="index_proximal">
+    <inertial>
+      <origin
+        xyz="-0.00112908264491655 -3.86657489762077E-06 0.0228400658147424"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.015 kg (15g) -->
+      <mass
+        value="0.015" />
+      <!-- CHANGED: Scaled inertia to 1.0e-5 -->
+      <inertia
+        ixx="1.0e-5"
+        ixy="0"
+        ixz="0"
+        iyy="1.0e-5"
+        iyz="0"
+        izz="1.0e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/index_proximal.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.807843137254902 0.843137254901961 0.905882352941176 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/index_proximal.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="index_mcp_pitch"
+    type="revolute">
+    <origin
+      xyz="0.0166748095646496 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="index_metacarpals" />
+    <child
+      link="index_proximal" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.4"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="index_middle">
+    <inertial>
+      <origin
+        xyz="-0.000210918632589208 -2.91655816400671E-06 0.0168376013550637"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.010 kg (10g) -->
+      <mass
+        value="0.010" />
+      <!-- CHANGED: Scaled inertia to 5.0e-6 -->
+      <inertia
+        ixx="5.0e-6"
+        ixy="0"
+        ixz="0"
+        iyy="5.0e-6"
+        iyz="0"
+        izz="5.0e-6" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/index_middle.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/index_middle.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="index_pip"
+    type="revolute">
+    <origin
+      xyz="-0.00419455239160021 1.32099983796707E-05 0.0448194355727413"
+      rpy="0 0 0" />
+    <parent
+      link="index_proximal" />
+    <child
+      link="index_middle" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.57"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="index_distal">
+    <inertial>
+      <origin
+        xyz="-0.00807040294819541 -1.95860155396688E-05 0.00803087332614133"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.005 kg (5g) -->
+      <mass
+        value="0.005" />
+      <!-- CHANGED: Scaled inertia to 2.0e-6 -->
+      <inertia
+        ixx="2.0e-6"
+        ixy="0"
+        ixz="0"
+        iyy="2.0e-6"
+        iyz="0"
+        izz="2.0e-6" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/index_distal.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/index_distal.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="index_dip"
+    type="revolute">
+    <origin
+      xyz="0.00275561951363186 0 0.0317024252223218"
+      rpy="0 0 0" />
+    <parent
+      link="index_middle" />
+    <child
+      link="index_distal" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.4"
+      effort="0.5"
+      velocity="3.0" />
+    <mimic
+      joint="index_pip"
+      multiplier="0.8917"
+      offset="0" />
+  </joint>
+  <link
+    name="thumb_metacarpals_base1">
+    <inertial>
+      <origin
+        xyz="0.00225106540143255 0.0106280781314811 0.00386496887062775"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.015 kg (15g) -->
+      <mass
+        value="0.015" />
+      <!-- CHANGED: Scaled inertia to 1.0e-5 -->
+      <inertia
+        ixx="1.0e-5"
+        ixy="0"
+        ixz="0"
+        iyy="1.0e-5"
+        iyz="0"
+        izz="1.0e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/thumb_metacarpals_base1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/thumb_metacarpals_base1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thumb_cmc_yaw"
+    type="revolute">
+    <origin
+      xyz="0.0039847 0.0050818 0.057392"
+      rpy="3.1416 0 1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="thumb_metacarpals_base1" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.4"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="thumb_metacarpals_base2">
+    <inertial>
+      <origin
+        xyz="0.00119794122046318 0.00176288166433086 0.00980405746394286"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.015 kg (15g) -->
+      <mass
+        value="0.015" />
+      <!-- CHANGED: Scaled inertia to 1.0e-5 -->
+      <inertia
+        ixx="1.0e-5"
+        ixy="0"
+        ixz="0"
+        iyy="1.0e-5"
+        iyz="0"
+        izz="1.0e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/thumb_metacarpals_base2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/thumb_metacarpals_base2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thumb_cmc_roll"
+    type="revolute">
+    <origin
+      xyz="0.000784740002368223 0.0196077603627024 0.000308721957079858"
+      rpy="1.18264333118745 0 1.57079632679503" />
+    <parent
+      link="thumb_metacarpals_base1" />
+    <child
+      link="thumb_metacarpals_base2" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.22"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="thumb_metacarpals">
+    <inertial>
+      <origin
+        xyz="0.00549384865796482 0.00805524685758721 0.0258290762784949"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.015 kg (15g) -->
+      <mass
+        value="0.015" />
+      <!-- CHANGED: Scaled inertia to 1.0e-5 -->
+      <inertia
+        ixx="1.0e-5"
+        ixy="0"
+        ixz="0"
+        iyy="1.0e-5"
+        iyz="0"
+        izz="1.0e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/thumb_metacarpals.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/thumb_metacarpals.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thumb_cmc_pitch"
+    type="revolute">
+    <origin
+      xyz="-0.000109690908352875 -0.00396440679180957 0.0307945044045898"
+      rpy="0 0.388152995607441 -1.57079632624948" />
+    <parent
+      link="thumb_metacarpals_base2" />
+    <child
+      link="thumb_metacarpals" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="0.79"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="thumb_proximal">
+    <inertial>
+      <origin
+        xyz="-0.0011057174593414 0.000334119020688653 0.0128607021591473"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.015 kg (15g) -->
+      <mass
+        value="0.015" />
+      <!-- CHANGED: Scaled inertia to 1.0e-5 -->
+      <inertia
+        ixx="1.0e-5"
+        ixy="0"
+        ixz="0"
+        iyy="1.0e-5"
+        iyz="0"
+        izz="1.0e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/thumb_proximal.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/thumb_proximal.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thumb_mcp"
+    type="revolute">
+    <origin
+      xyz="0.00857856380171737 0 0.0555715948082196"
+      rpy="0 0 0" />
+    <parent
+      link="thumb_metacarpals" />
+    <child
+      link="thumb_proximal" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.05"
+      effort="0.5"
+      velocity="3.0" />
+  </joint>
+  <link
+    name="thumb_distal">
+    <inertial>
+      <origin
+        xyz="-0.00636210776657178 4.14651450399844E-05 0.0118150620527104"
+        rpy="0 0 0" />
+      <!-- CHANGED: Scaled mass to 0.005 kg (5g) -->
+      <mass
+        value="0.005" />
+      <!-- CHANGED: Scaled inertia to 2.0e-6 -->
+      <inertia
+        ixx="2.0e-6"
+        ixy="0"
+        ixz="0"
+        iyy="2.0e-6"
+        iyz="0"
+        izz="2.0e-6" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/thumb_distal.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.823529411764706 0.823529411764706 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/thumb_distal.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thumb_dip"
+    type="revolute">
+    <origin
+      xyz="0.0066653832125308 0 0.0342561774516276"
+      rpy="0 0 0" />
+    <parent
+      link="thumb_proximal" />
+    <child
+      link="thumb_distal" />
+    <axis
+      xyz="0 1 0" />
+    <!-- CHANGED: Adjusted effort to 0.5 N.m and velocity to 3.0 rad/s -->
+    <limit
+      lower="0"
+      upper="1.22"
+      effort="0.5"
+      velocity="3.0" />
+    <mimic
+      joint="thumb_mcp"
+      multiplier="1.1619"
+      offset="0" />
+  </joint>
+</robot>
